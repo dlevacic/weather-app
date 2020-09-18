@@ -1,0 +1,26 @@
+kind: pipeline
+name: tria-storybook
+
+steps:
+- name: build
+  image: node
+  commands:
+  - npm install
+  when:
+    branch:
+      include:
+      - master
+
+- name: push to repo
+  image: plugins/docker
+  settings:
+    username:
+      from_secret: reg_username
+    password:
+      from_secret: reg_passwd
+    repo: reg.tria.hr/weather-app
+    registry: reg.tria.hr
+  when:
+    branch:
+      include:
+      - master
